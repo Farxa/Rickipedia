@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+package.json
+tsconfig.json
 
 # testing
 /coverage
