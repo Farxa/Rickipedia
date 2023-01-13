@@ -4,30 +4,34 @@ import { useParams } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from '@mui/material';
 import CharsList from '../components/CharsList';
-
 import HeaderHome from '../components/HeaderHome';
 
 const theme = createTheme();
 
 const HomePage: React.FunctionComponent = () => {
 	const [characters, setCharacters] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
 	const { pageNumber } = useParams();
 	const [count, setCount] = useState(0);
 
+	useEffect(() => {
+		setCurrentPage(pageNumber ? parseInt(pageNumber, 10) : 1);
+	}, [pageNumber]);
+
 	const allCharacters = gql`
-	query {
-		characters(page: ${pageNumber || 1}) {
-			results {
-				image
-				name
-				id
-				status
-			}
-			info {
-				count: pages
-			}
-		}
-	}`;
+    query {
+      characters(page: ${currentPage}) {
+        results {
+          image
+          name
+          id
+          status
+        }
+        info {
+          count: pages
+        }
+      }
+    }`;
 
 	const {
 		loading: charactersListLoading,
@@ -46,20 +50,15 @@ const HomePage: React.FunctionComponent = () => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			
-
 			<Container
-			maxWidth={false}
+				maxWidth={false}
 				sx={{
 					pt: 8,
 					pb: 6,
-					height: 300
+					height: 300,
 				}}
-				className='headerContainer'
-				>
-
+				className="headerContainer">
 				<HeaderHome />
-
 			</Container>
 			<CharsList
 				characters={characters}
@@ -70,6 +69,6 @@ const HomePage: React.FunctionComponent = () => {
 			/>
 		</ThemeProvider>
 	);
-}
+};
 
 export default HomePage;

@@ -51,11 +51,12 @@ const CharsList: React.FunctionComponent<ChildProps> = ({
 }) => {
 	const navigate = useNavigate();
 
-	const [page, setPage] = useState<number>(1);
+	// const [page, setPage] = useState<number>(1);
+	const [currentPage, setCurrentPage] = useState(1);
 
 	const handlePages = (updatePage: number) => {
-		setPage(updatePage);
-		navigate(`/page/${page}`);
+		setCurrentPage(updatePage);
+		navigate(`/page/${updatePage}`);
 	};
 
 	if (charactersListLoading) {
@@ -90,7 +91,7 @@ const CharsList: React.FunctionComponent<ChildProps> = ({
 					))}
 				</Grid>
 				<Box padding="50px">
-					<PageNums page={page} totalPages={count} handlePagination={handlePages} />
+					<PageNums page={currentPage} totalPages={count} handlePagination={handlePages} />
 				</Box>
 			</Container>
 		</ThemeProvider>
